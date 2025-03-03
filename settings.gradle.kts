@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "MoviesDemo"
 include(":app")
 include(":data")
+include(":usecase")
