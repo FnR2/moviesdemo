@@ -1,4 +1,4 @@
 package mobile.app.usecase
 
-class MyClass {
+interface UseCase {
 }

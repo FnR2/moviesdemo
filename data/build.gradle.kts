@@ -12,11 +12,11 @@ var interceptor = "4.9.3"
 var gson = "2.10.1"
 var coroutine = "1.7.3"
 dependencies{
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine")
-    implementation ("com.squareup.retrofit2:retrofit:$retrofit")
-    implementation ("com.google.code.gson:gson:$gson")
-    implementation ("com.squareup.retrofit2:converter-gson:$retrofit")
-    implementation ("com.squareup.okhttp3:logging-interceptor:$interceptor")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine")
+    api ("com.squareup.retrofit2:retrofit:$retrofit")
+    api ("com.google.code.gson:gson:$gson")
+    api ("com.squareup.retrofit2:converter-gson:$retrofit")
+    api ("com.squareup.okhttp3:logging-interceptor:$interceptor")
     // Mockito + Coroutines için gerekli bağımlılıklar
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
