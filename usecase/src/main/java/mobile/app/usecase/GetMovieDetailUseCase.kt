@@ -12,7 +12,7 @@ class GetMovieDetailUseCase(
     private val movieRepository: DefaultMovieRepository,
     private val dispatcher: CoroutineDispatcher
 ) : UseCase {
-    operator fun invoke(movieId: Int): Flow<RestResult<MovieDetail>> {
+    operator fun invoke(movieId: Long): Flow<RestResult<MovieDetail>> {
         return flow {
             val response = movieRepository.getMovieDetail(movieId)
             emit(response)

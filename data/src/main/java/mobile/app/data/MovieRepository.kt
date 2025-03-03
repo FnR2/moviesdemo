@@ -16,7 +16,7 @@ class MovieRepository(
             }
         }
 
-    override suspend fun getMovieDetail(movieId: Int): RestResult<MovieDetail> =
+    override suspend fun getMovieDetail(movieId: Long): RestResult<MovieDetail> =
         withContext(dispatcher) {
             return@withContext request {
                 movieService.getMovieDetail(movieId)

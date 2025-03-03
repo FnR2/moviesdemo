@@ -16,13 +16,15 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     private val moviesUseCase: GetMoviesUseCase,
-    private val movieDetailUseCase: GetMovieDetailUseCase
+    private val movieDetailUseCase: GetMovieDetailUseCase,
+    private val mapper: Mapper
 ) : DefaultViewModel() {
 
 
     private val _moviesState =
         MutableStateFlow<MoviesState>(MoviesState(mutableListOf<DiscoverUIModel>()))
     val moviesState: StateFlow<MoviesState> = _moviesState
+
 
     init {
         getMovies()
@@ -33,29 +35,17 @@ class MoviesViewModel @Inject constructor(
         runFlow(moviesUseCase(), onSuccess = { response ->
             _moviesState.update { currentState ->
                 val newList = currentState.list.toMutableList()
-                newList.add(map(response))
+                newList.add(mapper.mapMovies(response))
                 currentState.copy(list = newList)
             }
         })
     }
 
-    fun getMoviesDetail(movieId: Int) {
-        runFlow(movieDetailUseCase(movieId), onSuccess = {
 
-        })
-    }
-
-    private fun map(model: MoviesWithGroup): DiscoverUIModel {
-        return DiscoverUIModel(title = model.title, movieList = model.data.results.map {
-            MovieUIModel(id = it.id, imagePath = mapImagePath(it.posterPath))
-        })
-    }
-
-    private fun mapImagePath(url: String?): String? {
-        return url?.let { IMAGE_PREFIX.plus(it) }
-    }
 }
 
 data class MoviesState(val list: MutableList<DiscoverUIModel>)
 data class DiscoverUIModel(val title: String, val movieList: List<MovieUIModel>)
 data class MovieUIModel(val id: Long, val imagePath: String?)
+
+const val INTENT_PARAM = "movieId"

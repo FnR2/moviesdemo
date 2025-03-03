@@ -1,5 +1,6 @@
 package mobile.app.moviesdemo
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -8,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,20 +33,16 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.google.gson.annotations.SerializedName
 import dagger.hilt.android.AndroidEntryPoint
 import mobile.app.moviesdemo.ui.theme.MoviesDemoTheme
 
@@ -60,7 +58,7 @@ class MainActivity : ComponentActivity() {
                     topBar = { MovieToolbar() },
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
-                    MovieScreen(viewModel,innerPadding)
+                    MovieScreen(viewModel, innerPadding)
 
                 }
             }
@@ -68,8 +66,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
-fun MovieScreen(viewModel: MoviesViewModel,paddingValues: PaddingValues) {
+fun MovieScreen(viewModel: MoviesViewModel, paddingValues: PaddingValues) {
     val moviesState by viewModel.moviesState.collectAsState()
 
     LazyColumn(
@@ -79,7 +78,7 @@ fun MovieScreen(viewModel: MoviesViewModel,paddingValues: PaddingValues) {
             .padding(paddingValues)
     ) {
 
-        items(moviesState.list) { movie -> // Doğrudan listeyi kullanıyoruz
+        items(moviesState.list) { movie ->
             SectionTitle(movie.title)
             MovieRow(movie.movieList)
         }
@@ -108,25 +107,32 @@ fun MovieRow(movieUrls: List<MovieUIModel>) {
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(movieUrls.size) { index ->
-            MovieCard(movieUrls[index].imagePath)
+            MovieCard(movieUrls[index])
         }
     }
 }
 
 @Composable
-fun MovieCard(imageUrl: String?) {
+fun MovieCard(movie: MovieUIModel) {
+    val context = LocalContext.current
     Card(
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .width(120.dp)
             .height(180.dp)
+            .clickable {
+                val intent = Intent(context, MovieDetailActivity::class.java).apply {
+                    putExtra(INTENT_PARAM, movie.id)
+                }
+                context.startActivity(intent)
+            }
     ) {
-        if (imageUrl != null) {
+        if (movie.imagePath != null) {
             Image(
-                painter = rememberAsyncImagePainter(model = imageUrl, onSuccess = {
-                    Log.d("MovieCard", "Image loaded successfully: $imageUrl")
+                painter = rememberAsyncImagePainter(model = movie.imagePath, onSuccess = {
+                    Log.d("MovieCard", "Image loaded successfully: $movie.imagePath")
                 }, onError = {
-                    Log.e("MovieCard", "Failed to load image: $imageUrl")
+                    Log.e("MovieCard", "Failed to load image: $movie.imagePath")
                 }),
                 contentDescription = "Movie Poster",
                 contentScale = ContentScale.Crop,

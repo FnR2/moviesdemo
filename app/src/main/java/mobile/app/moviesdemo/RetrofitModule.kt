@@ -48,7 +48,7 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideRestUrl() = "https://api.themoviedb.org/3/discover/"
+    fun provideRestUrl() = "https://api.themoviedb.org/3/"
 
 
     @Singleton

@@ -15,23 +15,27 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class UseCaseModule {
+object UseCaseModule {
     @Provides
     @Singleton
-    fun provideMoviesUsecase(
-       movieRepository: DefaultMovieRepository,
-       dispatcher: CoroutineDispatcher
+    fun provideMoviesUseCase(
+        movieRepository: DefaultMovieRepository,
+        dispatcher: CoroutineDispatcher
     ): GetMoviesUseCase {
-        return GetMoviesUseCase(movieRepository,dispatcher)
+        return GetMoviesUseCase(movieRepository, dispatcher)
     }
 
     @Provides
     @Singleton
-    fun provideGetMovieDetailUsecase(
+    fun provideGetMovieDetailUseCase(
         movieRepository: DefaultMovieRepository,
         dispatcher: CoroutineDispatcher
     ): GetMovieDetailUseCase {
-        return GetMovieDetailUseCase(movieRepository,dispatcher)
+        return GetMovieDetailUseCase(movieRepository, dispatcher)
     }
+
+    @Provides
+    @Singleton
+    fun provideMapper() = Mapper()
 }
 
