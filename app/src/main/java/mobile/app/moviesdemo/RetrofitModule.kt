@@ -82,4 +82,4 @@ object RetrofitModule {
 }
 const val AUTHORIZATION = "Authorization"
 const val BEARER = "Bearer"
-const val TOKEN = ""
+const val TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MzYxZWE4YmM4YWUxMWU0MzE3N2ViNmE1MjQ0ODc1NSIsIm5iZiI6MTc0MDk5MTMyNC4zMzEsInN1YiI6IjY3YzU2YjVjNTY0ZDI1NzVkOTkxZmU2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.qlxEltDX9hWYtOOnFjKIc8uVpDYB-iCeZDLeLeQxQck"
