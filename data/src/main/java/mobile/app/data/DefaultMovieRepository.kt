@@ -1,6 +1,6 @@
 package mobile.app.data
 
 interface DefaultMovieRepository {
-    suspend fun getMovies(parameters:Map<String,String>):RestResult<DiscoverResponse>
-    suspend fun getMovieDetail(movieId:Int):RestResult<MovieDetail>
+    suspend fun getMovies(sortBy: String,title: String): RestResult<MoviesWithGroup>
+    suspend fun getMovieDetail(movieId: Int): RestResult<MovieDetail>
 }

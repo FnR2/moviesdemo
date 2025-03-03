@@ -1,26 +1,23 @@
-
 package mobile.app.data
 
-data class DiscoverResponse (
+import com.google.gson.annotations.SerializedName
+
+data class DiscoverResponse(
+    @SerializedName("page")
     val page: Long,
+    @SerializedName("total_pages")
     val totalPages: Long,
+    @SerializedName("results")
     val results: List<Movie>,
+    @SerializedName("total_results")
     val totalResults: Long
 )
 
-data class Movie (
-    val overview: String,
-    val originalLanguage: String,
-    val originalTitle: String,
-    val video: Boolean,
-    val title: String,
-    val genreIDS: List<Long>,
+data class Movie(
+    @SerializedName("poster_path")
     val posterPath: String,
-    val backdropPath: String,
-    val releaseDate: String,
-    val popularity: Double,
-    val voteAverage: Double,
+    @SerializedName("id")
     val id: Long,
-    val adult: Boolean,
-    val voteCount: Long
 )
+
+data class MoviesWithGroup(val data: DiscoverResponse, val title: String)

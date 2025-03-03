@@ -1,62 +1,93 @@
-// YApi QuickType插件生成，具体参考文档:https://plugins.jetbrains.com/plugin/18847-yapi-quicktype/documentation
-
 package mobile.app.data
 
-data class MovieDetail (
-    val originalLanguage: String,
-    val imdbID: String,
-    val video: Boolean,
-    val title: String,
-    val backdropPath: String,
-    val revenue: Long,
+import com.google.gson.annotations.SerializedName
+
+data class MovieDetail(
+    @SerializedName("adult")
+    val isAdult: Boolean,
+    @SerializedName("backdrop_path")
+    val backdropPath: String?,
+    @SerializedName("belongs_to_collection")
+    val belongsToCollection: Any?,
+    @SerializedName("budget")
+    val budget: Int,
+    @SerializedName("genres")
     val genres: List<Genre>,
-    val popularity: Double,
-    val productionCountries: List<ProductionCountry>,
-    val id: Long,
-    val voteCount: Long,
-    val budget: Long,
-    val overview: String,
-    val originalTitle: String,
-    val runtime: Long,
-    val posterPath: String,
+    @SerializedName("homepage")
+    val homepage: String?,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("imdb_id")
+    val imdbId: String?,
+    @SerializedName("origin_country")
     val originCountry: List<String>,
-    val spokenLanguages: List<SpokenLanguage>,
+    @SerializedName("original_language")
+    val originalLanguage: String,
+    @SerializedName("original_title")
+    val originalTitle: String,
+    @SerializedName("overview")
+    val overview: String,
+    @SerializedName("popularity")
+    val popularity: Double,
+    @SerializedName("poster_path")
+    val posterPath: String?,
+    @SerializedName("production_companies")
     val productionCompanies: List<ProductionCompany>,
+    @SerializedName("production_countries")
+    val productionCountries: List<ProductionCountry>,
+    @SerializedName("release_date")
     val releaseDate: String,
+    @SerializedName("revenue")
+    val revenue: Int,
+    @SerializedName("runtime")
+    val runtime: Int,
+    @SerializedName("spoken_languages")
+    val spokenLanguages: List<SpokenLanguage>,
+    @SerializedName("status")
+    val status: String,
+    @SerializedName("tagline")
+    val tagline: String?,
+    @SerializedName("title")
+    val title: String,
+    @SerializedName("video")
+    val hasVideo: Boolean,
+    @SerializedName("vote_average")
     val voteAverage: Double,
-    val belongsToCollection: BelongsToCollection,
-    val tagline: String,
-    val adult: Boolean,
-    val homepage: String,
-    val status: String
+    @SerializedName("vote_count")
+    val voteCount: Int
 )
 
-data class BelongsToCollection (
-    val backdropPath: String,
-    val name: String,
-    val id: Long,
-    val posterPath: String
-)
-
-data class Genre (
-    val name: String,
-    val id: Long
-)
-
-data class ProductionCompany (
-    val logoPath: String,
-    val name: String,
-    val id: Long,
-    val originCountry: String
-)
-
-data class ProductionCountry (
-    val iso3166_1: String,
+// Alt sınıflar
+data class Genre(
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("name")
     val name: String
 )
 
-data class SpokenLanguage (
+data class ProductionCompany(
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("logo_path")
+    val logoPath: String?,
+    @SerializedName("name")
     val name: String,
-    val iso639_1: String,
-    val englishName: String
+    @SerializedName("origin_country")
+    val originCountry: String
+)
+
+data class ProductionCountry(
+    @SerializedName("iso_3166_1")
+    val isoCode: String,
+    @SerializedName("name")
+    val name: String
+)
+
+data class SpokenLanguage(
+    @SerializedName("english_name")
+    val englishName: String,
+    @SerializedName("iso_639_1")
+    val isoCode: String,
+    @SerializedName("name")
+    val name: String
 )
