@@ -4,7 +4,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import mobile.app.data.DefaultMovieRepository
-import mobile.app.data.DiscoverResponse
 import mobile.app.data.MovieDetail
 import mobile.app.data.RestResult
 

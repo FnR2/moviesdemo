@@ -4,10 +4,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import mobile.app.data.DefaultMovieRepository
-import mobile.app.data.DiscoverResponse
 import mobile.app.data.MoviesWithGroup
 import mobile.app.data.RestResult
 
