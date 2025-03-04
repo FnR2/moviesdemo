@@ -71,15 +71,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
     implementation(project(":usecase"))
     implementation(libs.coil.compose)
-
-
-    // Lifecycle ve ViewModel bağımlılıkları
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.hilt.android)
     implementation(libs.hilt.compiler)
     kapt(libs.hilt.compiler)
-
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+    implementation("androidx.media3:media3-ui:1.3.1")
+    implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
 }

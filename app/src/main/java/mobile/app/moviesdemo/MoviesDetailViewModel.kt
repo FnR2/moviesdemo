@@ -42,7 +42,8 @@ data class MovieDetailUIModel(
     val overView: String,
     val dateRelease: String,
     val voteAverage: String,
-    val imagePath: String?
+    val imagePath: String?,
+    val streamSource: String = "https://storage.googleapis.com/wvmedia/cenc/h264/tears/tears.mpd"
 )
 
 sealed class MovieDetailState {

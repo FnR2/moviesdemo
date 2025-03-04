@@ -1,5 +1,6 @@
 package mobile.app.moviesdemo
 
+import ExoPlayerView
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -44,6 +47,7 @@ class MovieDetailActivity : ComponentActivity() {
 @Composable
 fun MovieDetailScreen(state: MovieDetailState) {
     if (state is MovieDetailState.DataState) {
+        var isPlaying by remember { mutableStateOf(false) }
         val movie = state.movie
         Column(
             modifier = Modifier
@@ -51,15 +55,22 @@ fun MovieDetailScreen(state: MovieDetailState) {
                 .background(Color.White)
                 .padding(16.dp)
         ) {
-            Image(
-                painter = rememberAsyncImagePainter(movie.imagePath),
-                contentDescription = "Movie Poster",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(Color.Gray, RoundedCornerShape(8.dp))
-            )
+
+            Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+                if (isPlaying) {
+                    ExoPlayerView(videoUrl = movie.streamSource)
+                } else {
+                    Image(
+                        painter = rememberAsyncImagePainter(movie.imagePath),
+                        contentDescription = "Movie Poster",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .background(Color.Gray, RoundedCornerShape(8.dp))
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -84,6 +95,17 @@ fun MovieDetailScreen(state: MovieDetailState) {
                 fontSize = 14.sp,
                 color = Color.Black
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = { isPlaying = true },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+            ) {
+                Text(text = "Play", color = Color.White, fontSize = 16.sp)
+            }
         }
 
     }
