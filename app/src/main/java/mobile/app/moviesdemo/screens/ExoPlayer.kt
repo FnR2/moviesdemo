@@ -1,4 +1,3 @@
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,7 +25,7 @@ import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import mobile.app.moviesdemo.MoviesDetailViewModel
+import mobile.app.moviesdemo.viewmodel.MoviesDetailViewModel
 import java.util.UUID
 
 @Composable

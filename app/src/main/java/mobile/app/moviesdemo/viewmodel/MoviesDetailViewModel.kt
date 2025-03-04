@@ -1,8 +1,9 @@
-package mobile.app.moviesdemo
+package mobile.app.moviesdemo.viewmodel
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import mobile.app.moviesdemo.Mapper
 import mobile.app.usecase.GetMovieDetailUseCase
 import javax.inject.Inject
 

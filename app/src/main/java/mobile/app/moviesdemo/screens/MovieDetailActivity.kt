@@ -1,4 +1,4 @@
-package mobile.app.moviesdemo
+package mobile.app.moviesdemo.screens
 
 import ExoPlayerView
 import android.content.res.Configuration
@@ -35,9 +35,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.media3.exoplayer.ExoPlayer
 import coil.compose.rememberAsyncImagePainter
 import dagger.hilt.android.AndroidEntryPoint
+import mobile.app.moviesdemo.viewmodel.MovieDetailState
+import mobile.app.moviesdemo.viewmodel.MoviesDetailViewModel
 
 @AndroidEntryPoint
 class MovieDetailActivity : ComponentActivity() {
@@ -71,7 +72,7 @@ fun MovieDetailScreen(state: MovieDetailState.DataState, viewModel: MoviesDetail
 
 
 @Composable
-fun MovieDetailContent(state: MovieDetailState,viewModel: MoviesDetailViewModel) {
+fun MovieDetailContent(state: MovieDetailState, viewModel: MoviesDetailViewModel) {
     if (state is MovieDetailState.DataState) {
         var isPlaying by remember { mutableStateOf(false) }
         val movie = state.movie

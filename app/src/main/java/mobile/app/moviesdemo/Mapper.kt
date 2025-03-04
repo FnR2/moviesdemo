@@ -2,6 +2,9 @@ package mobile.app.moviesdemo
 
 import mobile.app.data.MovieDetail
 import mobile.app.data.MoviesWithGroup
+import mobile.app.moviesdemo.viewmodel.DiscoverUIModel
+import mobile.app.moviesdemo.viewmodel.MovieDetailUIModel
+import mobile.app.moviesdemo.viewmodel.MovieUIModel
 
 class Mapper {
 

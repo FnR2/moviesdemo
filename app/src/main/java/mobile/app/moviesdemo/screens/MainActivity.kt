@@ -1,4 +1,4 @@
-package mobile.app.moviesdemo
+package mobile.app.moviesdemo.screens
 
 import android.content.Intent
 import android.os.Bundle
@@ -45,6 +45,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import dagger.hilt.android.AndroidEntryPoint
 import mobile.app.moviesdemo.ui.theme.MoviesDemoTheme
+import mobile.app.moviesdemo.viewmodel.INTENT_PARAM
+import mobile.app.moviesdemo.viewmodel.MovieUIModel
+import mobile.app.moviesdemo.viewmodel.MoviesViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
