@@ -14,18 +14,25 @@ class MoviesDetailViewModel @Inject constructor(
 
 
     private val _movieDetailState =
-        MutableStateFlow<MovieDetailState>(MovieDetailState.InitialState)
+        MutableStateFlow<MovieDetailState>(MovieDetailState.InitialState(empty()))
     val movieDetailState: StateFlow<MovieDetailState> = _movieDetailState
 
-
-    init {
-
-    }
 
     fun getMoviesDetail(movieId: Long) {
         runFlow(movieDetailUseCase(movieId), onSuccess = { response ->
             _movieDetailState.value = MovieDetailState.DataState(mapper.mapMovieDetail(response))
         })
+    }
+
+    private fun empty(): MovieDetailUIModel {
+        return MovieDetailUIModel(0, ",", ",", ",", "", "")
+    }
+
+    private val _currentPosition = MutableStateFlow(0L)
+    val currentPosition: StateFlow<Long> = _currentPosition
+
+    fun updatePosition(position: Long) {
+        _currentPosition.value = position
     }
 }
 
@@ -37,11 +44,15 @@ data class MovieDetailUIModel(
     val voteAverage: String,
     val imagePath: String?,
     val streamSource: String = "https://storage.googleapis.com/wvmedia/cenc/h264/tears/tears.mpd"
-)
+) {
 
-sealed class MovieDetailState {
-    data class DataState(val movie: MovieDetailUIModel) : MovieDetailState()
-    data object InitialState : MovieDetailState()
+}
+
+sealed class MovieDetailState(
+    open val movie: MovieDetailUIModel
+) {
+    data class DataState(override val movie: MovieDetailUIModel) : MovieDetailState(movie)
+    data class InitialState(override val movie: MovieDetailUIModel) : MovieDetailState(movie)
 
 }
 

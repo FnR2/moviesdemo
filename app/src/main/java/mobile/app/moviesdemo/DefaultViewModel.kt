@@ -16,11 +16,8 @@ abstract class DefaultViewModel : ViewModel() {
     ) {
         viewModelScope.launch {
             result.collectLatest { result ->
-                Log.e("result",result.toString())
                 when (result) {
                     is RestResult.Success -> {
-                        // if you want to customize loading ui then no need to change isLoading value
-                        handleLoading(false)
                         onSuccess(result.data)
                     }
 
