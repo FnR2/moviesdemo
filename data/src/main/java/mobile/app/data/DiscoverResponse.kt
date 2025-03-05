@@ -18,6 +18,14 @@ data class Movie(
     val posterPath: String,
     @SerializedName("id")
     val id: Long,
+    @SerializedName("vote_average")
+    val voteAverage: Double,
+    @SerializedName("release_date")
+    val releaseDate: String?,
+    @SerializedName("title")
+    val title: String,
+    @SerializedName("overview")
+    val overview: String,
 )
 
-data class MoviesWithGroup(val data: DiscoverResponse, val title: String)
+data class MoviesWithGroup(val data: DiscoverResponse, val title: String, val key: String)

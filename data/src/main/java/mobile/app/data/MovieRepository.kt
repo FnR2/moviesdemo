@@ -7,12 +7,16 @@ class MovieRepository(
     private val movieService: MovieService,
     private val dispatcher: CoroutineDispatcher
 ) : DefaultMovieRepository {
-    override suspend fun getMovies(sortBy: String, title: String): RestResult<MoviesWithGroup> =
+    override suspend fun getMovies(
+        sortBy: String,
+        title: String,
+        page: Long
+    ): RestResult<MoviesWithGroup> =
         withContext(dispatcher) {
             return@withContext request {
-                movieService.discover(sortBy)
+                movieService.discover(sortBy, page)
             }.map {
-                MoviesWithGroup(data = it, title = title)
+                MoviesWithGroup(data = it, title = title, key = sortBy)
             }
         }
 

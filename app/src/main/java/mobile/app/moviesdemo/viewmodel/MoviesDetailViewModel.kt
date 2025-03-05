@@ -38,7 +38,7 @@ class MoviesDetailViewModel @Inject constructor(
 }
 
 data class MovieDetailUIModel(
-    val id: Int,
+    val id: Long,
     val title: String,
     val overView: String,
     val dateRelease: String,

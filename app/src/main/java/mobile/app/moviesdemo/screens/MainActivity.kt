@@ -46,7 +46,7 @@ import coil.compose.rememberAsyncImagePainter
 import dagger.hilt.android.AndroidEntryPoint
 import mobile.app.moviesdemo.ui.theme.MoviesDemoTheme
 import mobile.app.moviesdemo.viewmodel.INTENT_PARAM
-import mobile.app.moviesdemo.viewmodel.MovieUIModel
+import mobile.app.moviesdemo.viewmodel.MovieDetailUIModel
 import mobile.app.moviesdemo.viewmodel.MoviesViewModel
 
 @AndroidEntryPoint
@@ -83,7 +83,7 @@ fun MovieScreen(viewModel: MoviesViewModel, paddingValues: PaddingValues) {
 
         items(moviesState.list) { movie ->
             SectionTitle(movie.title)
-            MovieRow(movie.movieList)
+            MovieRow(movie.key,movie.movieList,viewModel)
         }
 
     }
@@ -104,19 +104,20 @@ fun SectionTitle(title: String) {
 }
 
 @Composable
-fun MovieRow(movieUrls: List<MovieUIModel>) {
+fun MovieRow(key:String,movieUrls: List<MovieDetailUIModel>,viewModel: MoviesViewModel) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(movieUrls.size) { index ->
             MovieCard(movieUrls[index])
+            viewModel.paginateMovies(key,index,movieUrls.size)
         }
     }
 }
 
 @Composable
-fun MovieCard(movie: MovieUIModel) {
+fun MovieCard(movie: MovieDetailUIModel) {
     val context = LocalContext.current
     Card(
         shape = RoundedCornerShape(8.dp),

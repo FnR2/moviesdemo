@@ -16,7 +16,7 @@ data class MovieDetail(
     @SerializedName("homepage")
     val homepage: String?,
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
     @SerializedName("imdb_id")
     val imdbId: String?,
     @SerializedName("origin_country")
@@ -36,7 +36,7 @@ data class MovieDetail(
     @SerializedName("production_countries")
     val productionCountries: List<ProductionCountry>,
     @SerializedName("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
     @SerializedName("revenue")
     val revenue: Long,
     @SerializedName("runtime")
@@ -57,7 +57,7 @@ data class MovieDetail(
     val voteCount: Int
 )
 
-// Alt sınıflar
+
 data class Genre(
     @SerializedName("id")
     val id: Int,

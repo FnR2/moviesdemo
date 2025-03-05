@@ -3,10 +3,12 @@ package mobile.app.moviesdemo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import mobile.app.data.DefaultMovieRepository
 import mobile.app.usecase.GetMovieDetailUseCase
+import mobile.app.usecase.GetMoviesByCategoryUseCase
 import mobile.app.usecase.GetMoviesUseCase
 import javax.inject.Singleton
 
@@ -29,6 +31,15 @@ object UseCaseModule {
         dispatcher: CoroutineDispatcher
     ): GetMovieDetailUseCase {
         return GetMovieDetailUseCase(movieRepository, dispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun providePaginateUseCase(
+        movieRepository: DefaultMovieRepository,
+        dispatcher: CoroutineDispatcher
+    ): GetMoviesByCategoryUseCase {
+        return GetMoviesByCategoryUseCase(movieRepository,dispatcher)
     }
 
     @Provides

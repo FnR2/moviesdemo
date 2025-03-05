@@ -18,9 +18,9 @@ class GetMoviesUseCase(
     operator fun invoke(): Flow<RestResult<MoviesWithGroup>> = flow {
         val channel = Channel<RestResult<MoviesWithGroup>>(capacity = Channel.UNLIMITED)
         coroutineScope {
-            sortPairList.forEachIndexed { index, pair ->
+            sortPairList.entries.forEachIndexed { _, entry ->
                 launch {
-                    val result = movieRepository.getMovies(pair.first, pair.second)
+                    val result = movieRepository.getMovies(entry.key, entry.value)
                     channel.send(result)
                 }
             }
@@ -32,7 +32,7 @@ class GetMoviesUseCase(
     }.buildFlow(dispatcher)
 }
 
-private val sortPairList: List<Pair<String, String>> = listOf(
+val sortPairList: Map<String, String> = mapOf(
     "revenue.desc" to "Revenue",
     "primary_release_date.asc" to "Release Date",
     "popularity.desc" to "Popular",
