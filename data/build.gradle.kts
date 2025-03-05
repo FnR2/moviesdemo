@@ -17,10 +17,10 @@ dependencies{
     api ("com.google.code.gson:gson:$gson")
     api ("com.squareup.retrofit2:converter-gson:$retrofit")
     api ("com.squareup.okhttp3:logging-interceptor:$interceptor")
-    // Mockito + Coroutines için gerekli bağımlılıklar
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    api (libs.androidx.room.common)
 
 }

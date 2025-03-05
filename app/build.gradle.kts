@@ -53,7 +53,8 @@ android {
     }
 
 }
-
+val roomVersion = "2.6.1"
+val exoPlayer = "1.5.1"
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -77,8 +78,18 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.compiler)
     kapt(libs.hilt.compiler)
-    implementation("androidx.media3:media3-exoplayer:1.3.1")
-    implementation("androidx.media3:media3-ui:1.3.1")
-    implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.media3.exoplayer.dash)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.room.runtime)
+
+
+
+    // If this project only uses Java source, use the Java annotationProcessor
+    // No additional plugins are necessary
+    annotationProcessor(libs.androidx.room.compiler)
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx)
 }

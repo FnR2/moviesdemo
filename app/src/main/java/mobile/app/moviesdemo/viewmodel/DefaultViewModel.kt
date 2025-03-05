@@ -32,12 +32,12 @@ abstract class DefaultViewModel : ViewModel() {
         }
     }
 
-    private fun handleError(error: Throwable) {
-
+    open fun handleError(error: Throwable) {
+        // we can show error dialog or etc.This is an open so this can be overridden if needed.
     }
 
     open fun handleLoading(showLoading: Boolean) {
-
+        // we can show progress.This is an open so this can be overridden if needed.
     }
 
 }

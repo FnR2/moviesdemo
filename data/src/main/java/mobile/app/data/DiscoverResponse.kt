@@ -26,6 +26,17 @@ data class Movie(
     val title: String,
     @SerializedName("overview")
     val overview: String,
-)
+) {
+    fun toMovieEntity(): MovieEntity {
+        return MovieEntity(
+            posterPath = posterPath,
+            id = id,
+            voteAverage = voteAverage,
+            releaseDate = releaseDate,
+            title = title,
+            overview = overview
+        )
+    }
+}
 
 data class MoviesWithGroup(val data: DiscoverResponse, val title: String, val key: String)
