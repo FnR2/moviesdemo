@@ -3,6 +3,7 @@ package mobile.app.moviesdemo
 import mobile.app.data.Movie
 import mobile.app.data.MovieDetail
 import mobile.app.data.MoviesWithGroup
+import mobile.app.data.orZero
 import mobile.app.moviesdemo.viewmodel.DiscoverUIModel
 import mobile.app.moviesdemo.viewmodel.MovieDetailUIModel
 
@@ -23,7 +24,7 @@ class Mapper {
             title = movie.title,
             overView = movie.overview,
             dateRelease = movie.releaseDate ?: "",
-            voteAverage = String.format("%.1f", movie.voteAverage),
+            voteAverage = String.format("%.1f", movie.voteAverage.orZero()),
             imagePath = mapImagePath(movie.posterPath)
         )
     }
@@ -33,10 +34,10 @@ class Mapper {
             MovieDetailUIModel(
                 id = it.id,
                 imagePath = mapImagePath(it.posterPath),
-                title = it.title,
-                overView = it.overview,
-                dateRelease = it.releaseDate?:"",
-                voteAverage = String.format("%.1f", it.voteAverage),
+                title = it.title.orEmpty(),
+                overView = it.overview.orEmpty(),
+                dateRelease = it.releaseDate.orEmpty(),
+                voteAverage = String.format("%.1f", it.voteAverage.orZero()),
             )
         }.toMutableList()
     }

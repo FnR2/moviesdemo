@@ -1,5 +1,6 @@
 package mobile.app.moviesdemo.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +34,7 @@ abstract class DefaultViewModel : ViewModel() {
     }
 
     open fun handleError(error: Throwable) {
-        // we can show error dialog or etc.This is an open so this can be overridden if needed.
+        Log.e("error", error.toString())
     }
 
     open fun handleLoading(showLoading: Boolean) {

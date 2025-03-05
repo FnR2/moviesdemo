@@ -15,26 +15,26 @@ data class DiscoverResponse(
 
 data class Movie(
     @SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
     @SerializedName("id")
     val id: Long,
     @SerializedName("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double?,
     @SerializedName("release_date")
     val releaseDate: String?,
     @SerializedName("title")
-    val title: String,
+    val title: String?,
     @SerializedName("overview")
-    val overview: String,
+    val overview: String?,
 ) {
     fun toMovieEntity(key: String): MovieEntity {
         return MovieEntity(
-            posterPath = posterPath,
+            posterPath = posterPath.orEmpty(),
             id = id,
-            voteAverage = voteAverage,
+            voteAverage = voteAverage.orZero(),
             releaseDate = releaseDate,
-            title = title,
-            overview = overview,
+            title = title.orEmpty(),
+            overview = overview.orEmpty(),
             groupKey = key
         )
     }
@@ -51,3 +51,5 @@ data class MoviesWithGroup(val data: DiscoverResponse, val title: String, val ke
         )
     }
 }
+
+fun Double?.orZero(): Double = this ?: 0.0
