@@ -9,7 +9,7 @@ import mobile.app.data.RestResult
 
 abstract class DefaultViewModel : ViewModel() {
 
-    fun <T> runFlow(
+    fun <T> executeUseCase(
         result: Flow<RestResult<T>>,
         onSuccess: (suspend (T) -> Unit)
     ) {

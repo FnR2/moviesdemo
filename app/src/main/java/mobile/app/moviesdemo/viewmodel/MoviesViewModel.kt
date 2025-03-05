@@ -30,7 +30,7 @@ class MoviesViewModel @Inject constructor(
 
 
     private fun getInitialMovies() {
-        runFlow(moviesUseCase(), onSuccess = { response ->
+        executeUseCase(moviesUseCase(), onSuccess = { response ->
             _moviesState.update { currentState ->
                 val newList = currentState.list.toMutableList()
                 newList.add(mapper.mapDiscoverMovies(response))
@@ -55,7 +55,7 @@ class MoviesViewModel @Inject constructor(
             }
 
 
-            runFlow(
+            executeUseCase(
                 moviesByCategoriesUseCase(key = key, page = nextPage),
                 onSuccess = { response ->
                     val newMovies = mapper.mapMoviesByCategory(response.data.results)

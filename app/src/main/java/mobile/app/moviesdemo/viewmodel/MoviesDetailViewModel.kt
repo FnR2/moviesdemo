@@ -20,7 +20,7 @@ class MoviesDetailViewModel @Inject constructor(
 
 
     fun getMoviesDetail(movieId: Long) {
-        runFlow(movieDetailUseCase(movieId), onSuccess = { response ->
+        executeUseCase(movieDetailUseCase(movieId), onSuccess = { response ->
             _movieDetailState.value = MovieDetailState.DataState(mapper.mapMovieDetail(response))
         })
     }
