@@ -27,16 +27,27 @@ data class Movie(
     @SerializedName("overview")
     val overview: String,
 ) {
-    fun toMovieEntity(): MovieEntity {
+    fun toMovieEntity(key: String): MovieEntity {
         return MovieEntity(
             posterPath = posterPath,
             id = id,
             voteAverage = voteAverage,
             releaseDate = releaseDate,
             title = title,
-            overview = overview
+            overview = overview,
+            groupId = key
         )
     }
 }
 
-data class MoviesWithGroup(val data: DiscoverResponse, val title: String, val key: String)
+data class MoviesWithGroup(val data: DiscoverResponse, val title: String, val key: String) {
+    fun toMovieWithGroupEntity(): MovieWithGroupEntity {
+        return MovieWithGroupEntity(
+            page = data.page,
+            title = title,
+            totalPages = data.totalPages,
+            key = key,
+            totalResults = data.totalResults
+        )
+    }
+}

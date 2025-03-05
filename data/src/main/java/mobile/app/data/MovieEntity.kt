@@ -30,6 +30,7 @@ data class MovieEntity(
     val title: String,
     @ColumnInfo("overview")
     val overview: String,
+    @ColumnInfo(name = "group_id") val groupId: String
 ) {
     fun toMovie(): Movie {
         return Movie(

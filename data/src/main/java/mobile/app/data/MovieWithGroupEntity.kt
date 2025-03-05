@@ -2,6 +2,7 @@ package mobile.app.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "movie_group")
 data class MovieWithGroupEntity(
@@ -13,6 +14,7 @@ data class MovieWithGroupEntity(
     val totalResults: Long,
     @ColumnInfo("title")
     val title: String,
-    @ColumnInfo("groupKey")
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "groupKey", index = true)
     val key: String
 )

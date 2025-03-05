@@ -4,12 +4,17 @@ import kotlinx.coroutines.flow.Flow
 import mobile.app.data.ContainerParentEntity
 import mobile.app.data.DefaultLocalMovieRepository
 import mobile.app.data.MovieEntity
+import mobile.app.data.MovieWithGroupEntity
 
 class LocalRepository(
     private val dao: MoviesDao
 ) : DefaultLocalMovieRepository {
-    override suspend fun insertMovies() {
-        TODO("Not yet implemented")
+    override suspend fun insertMovieWithGroup(movieWithGroupEntity: MovieWithGroupEntity) {
+        dao.insertMovieGroup(movieWithGroupEntity)
+    }
+
+    override suspend fun insertMovies(movies: List<MovieEntity>) {
+        dao.insertMovies(movies)
     }
 
     override suspend fun getMovies(groupKey: String): Flow<List<MovieEntity>> {

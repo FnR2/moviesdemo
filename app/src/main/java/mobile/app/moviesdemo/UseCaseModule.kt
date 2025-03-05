@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
+import mobile.app.data.DefaultConnectionChecker
+import mobile.app.data.DefaultLocalMovieRepository
 import mobile.app.data.DefaultMovieRepository
 import mobile.app.usecase.GetMovieDetailUseCase
 import mobile.app.usecase.GetMoviesByCategoryUseCase
@@ -19,9 +21,16 @@ object UseCaseModule {
     @Singleton
     fun provideMoviesUseCase(
         movieRepository: DefaultMovieRepository,
-        dispatcher: CoroutineDispatcher
+        dispatcher: CoroutineDispatcher,
+        connectionChecker: DefaultConnectionChecker,
+        localMovieRepository: DefaultLocalMovieRepository
     ): GetMoviesUseCase {
-        return GetMoviesUseCase(movieRepository, dispatcher)
+        return GetMoviesUseCase(
+            movieRepository,
+            dispatcher,
+            connectionChecker,
+            localMovieRepository
+        )
     }
 
     @Provides
@@ -39,7 +48,7 @@ object UseCaseModule {
         movieRepository: DefaultMovieRepository,
         dispatcher: CoroutineDispatcher
     ): GetMoviesByCategoryUseCase {
-        return GetMoviesByCategoryUseCase(movieRepository,dispatcher)
+        return GetMoviesByCategoryUseCase(movieRepository, dispatcher)
     }
 
     @Provides
