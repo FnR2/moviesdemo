@@ -35,7 +35,7 @@ data class Movie(
             releaseDate = releaseDate,
             title = title,
             overview = overview,
-            groupId = key
+            groupKey = key
         )
     }
 }
@@ -46,7 +46,7 @@ data class MoviesWithGroup(val data: DiscoverResponse, val title: String, val ke
             page = data.page,
             title = title,
             totalPages = data.totalPages,
-            key = key,
+            groupKey = key,
             totalResults = data.totalResults
         )
     }

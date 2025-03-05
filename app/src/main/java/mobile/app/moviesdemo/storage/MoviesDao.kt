@@ -22,7 +22,7 @@ interface MoviesDao {
     suspend fun insertMovies(movies: List<MovieEntity>)
 
     @Transaction
-    @Query("SELECT * FROM movie_group WHERE groupKey = :groupKey")
+    @Query("SELECT * FROM movie WHERE group_key = :groupKey")
     fun getMoviesByGroup(groupKey: String): Flow<List<MovieEntity>>
 
 

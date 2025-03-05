@@ -21,7 +21,7 @@ object RoomModule {
 
     @Provides
     @Singleton
-    fun provideContactDatabase(
+    fun provideMovieDatabase(
         @ApplicationContext context: Context,
     ): AppDatabase {
         return Room.databaseBuilder(

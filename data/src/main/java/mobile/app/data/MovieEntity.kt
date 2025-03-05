@@ -1,9 +1,6 @@
 package mobile.app.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
+import androidx.room.*
 
 @Entity(
     tableName = "movie",
@@ -11,26 +8,20 @@ import androidx.room.Index
         ForeignKey(
             entity = MovieWithGroupEntity::class,
             parentColumns = ["key"],
-            childColumns = ["group_id"],
+            childColumns = ["group_key"],
             onDelete = ForeignKey.CASCADE
         )
-    ],
-    indices = [Index("group_id")]
+    ]
 )
 data class MovieEntity(
-    @ColumnInfo("poster_path")
-    val posterPath: String,
-    @ColumnInfo("_id")
-    val id: Long,
-    @ColumnInfo("vote_average")
-    val voteAverage: Double,
-    @ColumnInfo("release_date")
-    val releaseDate: String?,
-    @ColumnInfo("title")
-    val title: String,
-    @ColumnInfo("overview")
-    val overview: String,
-    @ColumnInfo(name = "group_id") val groupId: String
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id") val id: Long,
+    @ColumnInfo(name = "poster_path") val posterPath: String,
+    @ColumnInfo(name = "vote_average") val voteAverage: Double,
+    @ColumnInfo(name = "release_date") val releaseDate: String?,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "overview") val overview: String,
+    @ColumnInfo(name = "group_key") val groupKey: String
 ) {
     fun toMovie(): Movie {
         return Movie(

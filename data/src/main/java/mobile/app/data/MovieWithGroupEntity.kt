@@ -2,19 +2,22 @@ package mobile.app.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "movie_group")
+@Entity(
+    tableName = "movie_group",
+)
 data class MovieWithGroupEntity(
-    @ColumnInfo("page")
+    @ColumnInfo(name = "page")
     val page: Long,
-    @ColumnInfo("total_pages")
+    @ColumnInfo(name = "total_pages")
     val totalPages: Long,
-    @ColumnInfo("results")
+    @ColumnInfo(name = "results")
     val totalResults: Long,
-    @ColumnInfo("title")
+    @ColumnInfo(name = "title")
     val title: String,
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "groupKey", index = true)
-    val key: String
+    @ColumnInfo(name = "key")
+    val groupKey: String
 )

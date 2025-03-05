@@ -83,13 +83,9 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.room.runtime)
-
-
-
-    // If this project only uses Java source, use the Java annotationProcessor
-    // No additional plugins are necessary
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.compiler)
 
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation(libs.androidx.room.ktx)
 }

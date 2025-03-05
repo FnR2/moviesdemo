@@ -7,7 +7,7 @@ data class ContainerParentEntity(
     @Embedded val group: MovieWithGroupEntity,
     @Relation(
         parentColumn = "key",
-        entityColumn = "group_id"
+        entityColumn = "group_key"
     )
     val movies: List<MovieEntity>
 ) {
@@ -22,7 +22,7 @@ data class ContainerParentEntity(
                 }
             ),
             title = group.title,
-            key = group.key
+            key = group.groupKey
         )
     }
 }
