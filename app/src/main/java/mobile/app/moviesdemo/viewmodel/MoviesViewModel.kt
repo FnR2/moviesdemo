@@ -43,30 +43,42 @@ class MoviesViewModel @Inject constructor(
         val shouldPaginate = (size - index) < PAGING_THRESHOLD
         if (!shouldPaginate) return
 
-        val currentPage = _moviesState.value.list.firstOrNull { it.key == key }?.currentPage ?: 1
-        val nextPage = currentPage + 1
+        _moviesState.value.list.firstOrNull { it.key == key }?.let { category ->
+            if (category.isPaginating) return
+            val nextPage = category.currentPage + 1
 
-        runFlow(
-            moviesByCategoriesUseCase(key = key, page = nextPage),
-            onSuccess = { response ->
-                val newMovies = mapper.mapMoviesByCategory(response.data.results)
-
-                _moviesState.update { currentState ->
-                    val updatedList = currentState.list.map { category ->
-                        if (category.key == key) {
-                            category.copy(
-                                currentPage = nextPage,
-                                movieList = (category.movieList + newMovies).toMutableList()
-                            )
-                        } else {
-                            category
-                        }
-                    }.toMutableList()
-
-                    currentState.copy(list = updatedList)
-                }
+            _moviesState.update { currentState ->
+                val updatedList = currentState.list.map {
+                    if (it.key == key) it.copy(isPaginating = true) else it
+                }.toMutableList()
+                currentState.copy(list = updatedList)
             }
-        )
+
+
+            runFlow(
+                moviesByCategoriesUseCase(key = key, page = nextPage),
+                onSuccess = { response ->
+                    val newMovies = mapper.mapMoviesByCategory(response.data.results)
+
+                    _moviesState.update { currentState ->
+                        val updatedList = currentState.list.map { category ->
+                            if (category.key == key) {
+                                category.copy(
+                                    currentPage = nextPage,
+                                    movieList = (category.movieList + newMovies).toMutableList(),
+                                    isPaginating = false
+                                )
+                            } else {
+                                category
+                            }
+                        }.toMutableList()
+
+                        currentState.copy(list = updatedList)
+                    }
+                }
+            )
+        }
+
     }
 
 
@@ -77,7 +89,8 @@ data class DiscoverUIModel(
     val currentPage: Long,
     val title: String,
     val key: String,
-    var movieList: MutableList<MovieDetailUIModel>
+    var movieList: MutableList<MovieDetailUIModel>,
+    var isPaginating: Boolean = false
 )
 
 const val INTENT_PARAM = "movieId"
