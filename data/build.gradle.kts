@@ -7,6 +7,8 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+
+
 var retrofit = "2.9.0"
 var interceptor = "4.9.3"
 var gson = "2.10.1"
@@ -22,5 +24,6 @@ dependencies{
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
     api (libs.androidx.room.common)
+    testImplementation(libs.junit.jupiter)
 
 }
