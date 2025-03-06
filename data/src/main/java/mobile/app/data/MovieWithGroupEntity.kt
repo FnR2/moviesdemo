@@ -13,7 +13,7 @@ data class MovieWithGroupEntity(
     val page: Long,
     @ColumnInfo(name = "total_pages")
     val totalPages: Long,
-    @ColumnInfo(name = "results")
+    @ColumnInfo(name = "total_results")
     val totalResults: Long,
     @ColumnInfo(name = "title")
     val title: String,

@@ -2,7 +2,6 @@ package mobile.app.moviesdemo.screens
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -62,13 +61,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     MovieScreen(viewModel, innerPadding)
-
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun MovieScreen(viewModel: MoviesViewModel, paddingValues: PaddingValues) {
@@ -80,12 +77,10 @@ fun MovieScreen(viewModel: MoviesViewModel, paddingValues: PaddingValues) {
             .background(Color.Black)
             .padding(paddingValues)
     ) {
-
         items(moviesState.list) { movie ->
             SectionTitle(movie.title)
-            MovieRow(movie.key,movie.movieList,viewModel)
+            MovieRow(movie.key, movie.movieList, viewModel)
         }
-
     }
 }
 
@@ -104,14 +99,14 @@ fun SectionTitle(title: String) {
 }
 
 @Composable
-fun MovieRow(key:String,movieUrls: List<MovieDetailUIModel>,viewModel: MoviesViewModel) {
+fun MovieRow(key: String, movieUrls: List<MovieDetailUIModel>, viewModel: MoviesViewModel) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(movieUrls.size) { index ->
             MovieCard(movieUrls[index])
-            viewModel.paginateMovies(key,index,movieUrls.size)
+            viewModel.paginateMovies(key, index, movieUrls.size)
         }
     }
 }
@@ -133,16 +128,12 @@ fun MovieCard(movie: MovieDetailUIModel) {
     ) {
         if (movie.imagePath != null) {
             Image(
-                painter = rememberAsyncImagePainter(model = movie.imagePath, onSuccess = {
-                    Log.d("MovieCard", "Image loaded successfully: $movie.imagePath")
-                }, onError = {
-                    Log.e("MovieCard", "Failed to load image: $movie.imagePath")
-                }),
+                painter = rememberAsyncImagePainter(model = movie.imagePath),
                 contentDescription = "Movie Poster",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
 
-                )
+            )
         } else {
             Box(
                 modifier = Modifier

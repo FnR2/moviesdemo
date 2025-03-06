@@ -6,6 +6,7 @@ import mobile.app.data.MoviesWithGroup
 import mobile.app.data.orZero
 import mobile.app.moviesdemo.viewmodel.DiscoverUIModel
 import mobile.app.moviesdemo.viewmodel.MovieDetailUIModel
+import java.util.Locale
 
 class Mapper {
 
@@ -24,7 +25,7 @@ class Mapper {
             title = movie.title,
             overView = movie.overview,
             dateRelease = movie.releaseDate ?: "",
-            voteAverage = String.format("%.1f", movie.voteAverage.orZero()),
+            voteAverage = String.format(Locale.getDefault(), "%.1f", movie.voteAverage.orZero()),
             imagePath = mapImagePath(movie.posterPath)
         )
     }
@@ -37,7 +38,7 @@ class Mapper {
                 title = it.title.orEmpty(),
                 overView = it.overview.orEmpty(),
                 dateRelease = it.releaseDate.orEmpty(),
-                voteAverage = String.format("%.1f", it.voteAverage.orZero()),
+                voteAverage = String.format(Locale.getDefault(), "%.1f", it.voteAverage.orZero()),
             )
         }.toMutableList()
     }

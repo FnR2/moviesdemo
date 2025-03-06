@@ -3,7 +3,6 @@ package mobile.app.moviesdemo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.scopes.ActivityRetainedScoped
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import mobile.app.data.DefaultConnectionChecker
@@ -55,4 +54,3 @@ object UseCaseModule {
     @Singleton
     fun provideMapper() = Mapper()
 }
-

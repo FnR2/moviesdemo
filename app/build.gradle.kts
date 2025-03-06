@@ -1,9 +1,13 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.kapt) // Kapt
     alias(libs.plugins.compose.compiler)
+    id("io.gitlab.arturbosch.detekt")
 }
 
 android {
@@ -52,6 +56,24 @@ android {
         }
     }
 
+    detekt {
+        toolVersion = "1.23.3"
+        buildUponDefaultConfig = true
+        allRules = false
+        autoCorrect = true
+    }
+
+    tasks.named("check") {
+        dependsOn("detekt")
+    }
+
+    tasks.withType<Detekt>().configureEach {
+        jvmTarget = "1.8"
+    }
+    tasks.withType<DetektCreateBaselineTask>().configureEach {
+        jvmTarget = "1.8"
+    }
+
 }
 val roomVersion = "2.6.1"
 val exoPlayer = "1.5.1"
@@ -87,5 +109,6 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
     annotationProcessor(libs.androidx.room.compiler)
+    detektPlugins(libs.detekt.formatting)
 
 }

@@ -3,8 +3,6 @@ package mobile.app.moviesdemo
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
-import dagger.hilt.android.qualifiers.ApplicationContext
 import mobile.app.data.DefaultConnectionChecker
 import javax.inject.Inject
 

@@ -34,11 +34,11 @@ abstract class DefaultViewModel : ViewModel() {
     }
 
     open fun handleError(error: Throwable) {
-        Log.e("error", error.toString())
+        Log.d(this::class.java.name, error.toString())
+        // handle error in here
     }
 
     open fun handleLoading(showLoading: Boolean) {
         // we can show progress.This is an open so this can be overridden if needed.
     }
-
 }

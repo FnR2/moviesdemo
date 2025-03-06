@@ -29,7 +29,6 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideLocalMovieRepository(
-        dispatcher: CoroutineDispatcher,
         dao: MoviesDao
     ): DefaultLocalMovieRepository {
         return LocalRepository(dao)
@@ -39,4 +38,3 @@ class RepositoryModule {
     @Singleton
     fun provideDispatcher() = Dispatchers.IO
 }
-

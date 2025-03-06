@@ -13,10 +13,8 @@ import mobile.app.data.MovieWithGroupEntity
 @Dao
 interface MoviesDao {
 
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovieGroup(group: MovieWithGroupEntity)
-
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<MovieEntity>)
@@ -24,7 +22,6 @@ interface MoviesDao {
     @Transaction
     @Query("SELECT * FROM movie WHERE group_key = :groupKey")
     fun getMoviesByGroup(groupKey: String): Flow<List<MovieEntity>>
-
 
     @Transaction
     @Query("SELECT * FROM movie_group")

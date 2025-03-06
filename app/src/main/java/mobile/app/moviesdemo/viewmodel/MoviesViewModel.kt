@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import mobile.app.moviesdemo.Mapper
-import mobile.app.usecase.GetMovieDetailUseCase
 import mobile.app.usecase.GetMoviesByCategoryUseCase
 import mobile.app.usecase.GetMoviesUseCase
 import javax.inject.Inject
@@ -14,20 +13,16 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val moviesUseCase: GetMoviesUseCase,
     private val moviesByCategoriesUseCase: GetMoviesByCategoryUseCase,
-    private val movieDetailUseCase: GetMovieDetailUseCase,
     private val mapper: Mapper
 ) : DefaultViewModel() {
-
 
     private val _moviesState =
         MutableStateFlow<MoviesState>(MoviesState(mutableListOf<DiscoverUIModel>()))
     val moviesState: StateFlow<MoviesState> = _moviesState
 
-
     init {
         getInitialMovies()
     }
-
 
     private fun getInitialMovies() {
         executeUseCase(moviesUseCase(), onSuccess = { response ->
@@ -54,7 +49,6 @@ class MoviesViewModel @Inject constructor(
                 currentState.copy(list = updatedList)
             }
 
-
             executeUseCase(
                 moviesByCategoriesUseCase(key = key, page = nextPage),
                 onSuccess = { response ->
@@ -78,10 +72,7 @@ class MoviesViewModel @Inject constructor(
                 }
             )
         }
-
     }
-
-
 }
 
 data class MoviesState(val list: MutableList<DiscoverUIModel>)

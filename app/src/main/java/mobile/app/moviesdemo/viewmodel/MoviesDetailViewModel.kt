@@ -13,11 +13,9 @@ class MoviesDetailViewModel @Inject constructor(
     private val mapper: Mapper
 ) : DefaultViewModel() {
 
-
     private val _movieDetailState =
         MutableStateFlow<MovieDetailState>(MovieDetailState.InitialState(empty()))
     val movieDetailState: StateFlow<MovieDetailState> = _movieDetailState
-
 
     fun getMoviesDetail(movieId: Long) {
         executeUseCase(movieDetailUseCase(movieId), onSuccess = { response ->
@@ -45,15 +43,11 @@ data class MovieDetailUIModel(
     val voteAverage: String,
     val imagePath: String?,
     val streamSource: String = "https://storage.googleapis.com/wvmedia/cenc/h264/tears/tears.mpd"
-) {
-
-}
+)
 
 sealed class MovieDetailState(
     open val movie: MovieDetailUIModel
 ) {
     data class DataState(override val movie: MovieDetailUIModel) : MovieDetailState(movie)
     data class InitialState(override val movie: MovieDetailUIModel) : MovieDetailState(movie)
-
 }
-

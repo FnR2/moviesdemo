@@ -2,6 +2,7 @@
 agp = "8.6.1"
 coilCompose = "2.2.2"
 compiler = "1.1.1"
+detektFormatting = "1.23.8"
 exoPlayer = "1.5.1"
 hiltLifecycleViewmodel = "1.0.0-alpha03"
 hiltNavigationCompose = "1.2.0"
@@ -31,6 +32,7 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVers
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 compiler = { module = "android.arch.persistence.room:compiler", version.ref = "compiler" }
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektFormatting" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

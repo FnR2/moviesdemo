@@ -1,3 +1,5 @@
+package mobile.app.moviesdemo.screens
+
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +30,7 @@ import kotlinx.coroutines.launch
 import mobile.app.moviesdemo.viewmodel.MoviesDetailViewModel
 import java.util.UUID
 
+@Suppress("LongMethod")
 @Composable
 fun ExoPlayerView(videoUrl: String, viewModel: MoviesDetailViewModel) {
     val context = LocalContext.current
@@ -41,7 +44,7 @@ fun ExoPlayerView(videoUrl: String, viewModel: MoviesDetailViewModel) {
                 DrmConfiguration.Builder(UUID.fromString("EDEF8BA9-79D6-4ACE-A3C8-27DCD51D21ED"))
                     .setLicenseUri(
                         "https://proxy.uat.widevine.com/proxy?video_id=2015_tears&provider=widevin\n" +
-                                "e_test"
+                            "e_test"
                     )
                     .build()
             val mediaItem = MediaItem.Builder()
@@ -84,7 +87,8 @@ fun ExoPlayerView(videoUrl: String, viewModel: MoviesDetailViewModel) {
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
-                Lifecycle.Event.ON_PAUSE -> { viewModel.updatePosition(exoPlayer.currentPosition)
+                Lifecycle.Event.ON_PAUSE -> {
+                    viewModel.updatePosition(exoPlayer.currentPosition)
                     playWhenReady = exoPlayer.playWhenReady
                     exoPlayer.playWhenReady = false
                 }
@@ -102,7 +106,5 @@ fun ExoPlayerView(videoUrl: String, viewModel: MoviesDetailViewModel) {
             lifecycleOwner.lifecycle.removeObserver(observer)
             exoPlayer.release()
         }
-
     }
-
 }

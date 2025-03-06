@@ -9,7 +9,6 @@ import mobile.app.data.RetrofitClient
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -31,7 +30,6 @@ object RetrofitModule {
         return retrofitClient.create()
     }
 
-
     @Singleton
     @Provides
     fun provideOkHttpClient(
@@ -41,8 +39,6 @@ object RetrofitModule {
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(headerInterceptor)
         builder.addInterceptor(logger)
-        builder.readTimeout(30, TimeUnit.SECONDS)
-        builder.writeTimeout(30, TimeUnit.SECONDS)
         return builder.build()
     }
 
@@ -50,11 +46,9 @@ object RetrofitModule {
     @Provides
     fun provideRestUrl() = "https://api.themoviedb.org/3/"
 
-
     @Singleton
     @Provides
-    fun providesApiHeaders(
-    ): List<Pair<String, String>> {
+    fun providesApiHeaders(): List<Pair<String, String>> {
         val headerList = arrayListOf(
             Pair("Accept", "application/json; charset=utf-8"),
             Pair("Content-Type", "application/json"),
@@ -62,7 +56,6 @@ object RetrofitModule {
         )
         return headerList
     }
-
 
     @Singleton
     @Provides

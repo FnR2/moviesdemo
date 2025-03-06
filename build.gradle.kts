@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.compose.compiler) apply false
+    id("io.gitlab.arturbosch.detekt") version "1.23.3"
 }

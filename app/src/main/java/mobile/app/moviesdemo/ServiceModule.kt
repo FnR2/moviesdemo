@@ -21,7 +21,6 @@ object ServiceModule {
         return retrofit.create(MovieService::class.java)
     }
 
-
     @Singleton
     @Provides
     fun provideConnectionChecker(@ApplicationContext context: Context): DefaultConnectionChecker {

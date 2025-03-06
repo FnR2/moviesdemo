@@ -1,6 +1,5 @@
 package mobile.app.moviesdemo.screens
 
-import ExoPlayerView
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -52,25 +51,23 @@ class MovieDetailActivity : ComponentActivity() {
                 viewModel.getMoviesDetail(movieId)
             }
             val movieState by viewModel.movieDetailState.collectAsState()
-            (movieState as? MovieDetailState.DataState)?.let { MovieDetailScreen(it,viewModel) }
-
+            (movieState as? MovieDetailState.DataState)?.let { MovieDetailScreen(it, viewModel) }
         }
     }
 }
-
 
 @Composable
 fun MovieDetailScreen(state: MovieDetailState.DataState, viewModel: MoviesDetailViewModel) {
     val configuration = LocalConfiguration.current
 
     if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        ExoPlayerView(videoUrl = state.movie.streamSource,viewModel)
+        ExoPlayerView(videoUrl = state.movie.streamSource, viewModel)
     } else {
-        MovieDetailContent(state,viewModel)
+        MovieDetailContent(state, viewModel)
     }
 }
 
-
+@Suppress("LongMethod")
 @Composable
 fun MovieDetailContent(state: MovieDetailState, viewModel: MoviesDetailViewModel) {
     if (state is MovieDetailState.DataState) {
@@ -82,12 +79,13 @@ fun MovieDetailContent(state: MovieDetailState, viewModel: MoviesDetailViewModel
                 .background(Color.White)
                 .padding(16.dp)
         ) {
-
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) {
                 if (isPlaying) {
-                    ExoPlayerView(videoUrl = movie.streamSource,viewModel)
+                    ExoPlayerView(videoUrl = movie.streamSource, viewModel)
                 } else {
                     Image(
                         painter = rememberAsyncImagePainter(movie.imagePath),
@@ -140,6 +138,5 @@ fun MovieDetailContent(state: MovieDetailState, viewModel: MoviesDetailViewModel
                 )
             }
         }
-
     }
 }
