@@ -1,10 +1,19 @@
 package mobile.app.moviesdemo.viewmodel
 
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import mobile.app.data.DefaultConnectionChecker
+import mobile.app.moviesdemo.Event
 import mobile.app.moviesdemo.Mapper
+import mobile.app.moviesdemo.NavigateEvent
+import mobile.app.moviesdemo.ShowSnackbarEvent
 import mobile.app.usecase.GetMoviesByCategoryUseCase
 import mobile.app.usecase.GetMoviesUseCase
 import javax.inject.Inject
@@ -13,12 +22,16 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(
     private val moviesUseCase: GetMoviesUseCase,
     private val moviesByCategoriesUseCase: GetMoviesByCategoryUseCase,
-    private val mapper: Mapper
+    private val mapper: Mapper,
+    private val connectionChecker: DefaultConnectionChecker
 ) : DefaultViewModel() {
 
     private val _moviesState =
         MutableStateFlow<MoviesState>(MoviesState(mutableListOf<DiscoverUIModel>()))
     val moviesState: StateFlow<MoviesState> = _moviesState
+
+    private val _eventFlow = MutableSharedFlow<Event>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         getInitialMovies()
@@ -71,6 +84,18 @@ class MoviesViewModel @Inject constructor(
                     }
                 }
             )
+        }
+    }
+
+    fun navigateDetail(id: Long) {
+        val event = if (connectionChecker.isConnectionAvailable()) {
+            NavigateEvent(id)
+        } else {
+            ShowSnackbarEvent("No Connection")
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            _eventFlow.emit(event)
         }
     }
 }

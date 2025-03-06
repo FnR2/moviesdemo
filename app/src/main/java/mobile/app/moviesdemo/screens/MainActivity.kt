@@ -1,18 +1,15 @@
 package mobile.app.moviesdemo.screens
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,41 +23,67 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import mobile.app.moviesdemo.NavigateEvent
+import mobile.app.moviesdemo.ShowSnackbarEvent
 import mobile.app.moviesdemo.ui.theme.MoviesDemoTheme
-import mobile.app.moviesdemo.viewmodel.INTENT_PARAM
 import mobile.app.moviesdemo.viewmodel.MovieDetailUIModel
 import mobile.app.moviesdemo.viewmodel.MoviesViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MoviesViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MoviesDemoTheme {
+                val navController = rememberNavController()
+
                 Scaffold(
                     topBar = { MovieToolbar() },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) { innerPadding ->
-                    MovieScreen(viewModel, innerPadding)
+                    NavHost(
+                        navController = navController,
+                        startDestination = "movie_list",
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+                        composable("movie_list") {
+                            val viewModel: MoviesViewModel = hiltViewModel()
+                            MovieScreen(viewModel, navController)
+                        }
+                        composable("movie_detail/{movieId}") { backStackEntry ->
+                            val movieId = backStackEntry.arguments?.getString("movieId")?.toLongOrNull()
+                            movieId?.let {
+                                MovieDetailScreen(movieId)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -68,18 +91,36 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MovieScreen(viewModel: MoviesViewModel, paddingValues: PaddingValues) {
+fun MovieScreen(viewModel: MoviesViewModel, navController: NavController) {
     val moviesState by viewModel.moviesState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-            .padding(paddingValues)
-    ) {
-        items(moviesState.list) { movie ->
-            SectionTitle(movie.title)
-            MovieRow(movie.key, movie.movieList, viewModel)
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is NavigateEvent -> {
+                    navController.navigate("movie_detail/${event.id}")
+                }
+
+                is ShowSnackbarEvent -> {
+                    snackbarHostState.showSnackbar(event.message)
+                }
+            }
+        }
+    }
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
+                .padding(innerPadding)
+        ) {
+            items(moviesState.list) { movie ->
+                SectionTitle(movie.title)
+                MovieRow(movie.key, movie.movieList, viewModel)
+            }
         }
     }
 }
@@ -112,18 +153,14 @@ fun MovieRow(key: String, movieUrls: List<MovieDetailUIModel>, viewModel: Movies
 }
 
 @Composable
-fun MovieCard(movie: MovieDetailUIModel) {
-    val context = LocalContext.current
+fun MovieCard(movie: MovieDetailUIModel, viewModel: MoviesViewModel = hiltViewModel()) {
     Card(
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .width(120.dp)
             .height(180.dp)
             .clickable {
-                val intent = Intent(context, MovieDetailActivity::class.java).apply {
-                    putExtra(INTENT_PARAM, movie.id)
-                }
-                context.startActivity(intent)
+                viewModel.navigateDetail(movie.id)
             }
     ) {
         if (movie.imagePath != null) {

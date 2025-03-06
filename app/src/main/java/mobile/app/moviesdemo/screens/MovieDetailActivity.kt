@@ -1,10 +1,6 @@
 package mobile.app.moviesdemo.screens
 
 import android.content.res.Configuration
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -34,36 +32,46 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
-import dagger.hilt.android.AndroidEntryPoint
 import mobile.app.moviesdemo.viewmodel.MovieDetailState
 import mobile.app.moviesdemo.viewmodel.MoviesDetailViewModel
 
-@AndroidEntryPoint
-class MovieDetailActivity : ComponentActivity() {
-    private val viewModel: MoviesDetailViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val movieId = intent.extras!!.get("movieId") as Long
+@Composable
+fun MovieDetailScreen(movieId: Long, viewModel: MoviesDetailViewModel = hiltViewModel()) {
+    val movieState by viewModel.movieDetailState.collectAsState()
 
-        setContent {
-            LaunchedEffect(movieId) {
-                viewModel.getMoviesDetail(movieId)
+    LaunchedEffect(movieId) {
+        viewModel.getMoviesDetail(movieId)
+    }
+
+    when (movieState) {
+        is MovieDetailState.DataState -> {
+            val state = movieState as MovieDetailState.DataState
+            val configuration = LocalConfiguration.current
+
+            if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                ExoPlayerView(videoUrl = state.movie.streamSource, viewModel)
+            } else {
+                MovieDetailContent(state, viewModel)
             }
-            val movieState by viewModel.movieDetailState.collectAsState()
-            (movieState as? MovieDetailState.DataState)?.let { MovieDetailScreen(it, viewModel) }
+        }
+
+        is MovieDetailState.InitialState -> {
+            LoadingScreen()
         }
     }
 }
 
 @Composable
-fun MovieDetailScreen(state: MovieDetailState.DataState, viewModel: MoviesDetailViewModel) {
-    val configuration = LocalConfiguration.current
-
-    if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-        ExoPlayerView(videoUrl = state.movie.streamSource, viewModel)
-    } else {
-        MovieDetailContent(state, viewModel)
+fun LoadingScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(color = Color.Red)
     }
 }
 

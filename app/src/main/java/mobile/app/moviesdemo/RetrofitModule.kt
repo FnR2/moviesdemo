@@ -74,6 +74,10 @@ object RetrofitModule {
     }
 }
 
+/**
+ * This token shouldnt be placed in here due to security concerns but not this time
+ */
+
 const val AUTHORIZATION = "Authorization"
 const val BEARER = "Bearer"
 const val TOKEN =
